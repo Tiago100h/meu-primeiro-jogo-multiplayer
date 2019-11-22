@@ -17,27 +17,43 @@ function createGame() {
     function movePlayer(command) {
         console.log(`Moving ${command.playerId} with ${command.keyPressed}`);
 
+        const acceptedMoves = {
+            ArrowUp(player) {
+                console.log('Moving player Up');
+                if (player.y - 1 >= 0) {
+                    player.y--;
+                    return;
+                }
+            },
+            ArrowRight(player) {
+                console.log('Moving player Right');
+                if (player.x + 1 < screen.width) {
+                    player.x++;
+                    return;
+                }
+            },
+            ArrowDown(player) {
+                console.log('Moving player Down');
+                if (player.y + 1 < screen.height) {
+                    player.y++;
+                    return;
+                }
+            },
+            ArrowLeft(player) {
+                console.log('Moving player Left');
+                if (player.x - 1 >= 0) {
+                    player.x--;
+                    return;
+                }
+            }
+        };
+
         const keyPressed = command.keyPressed;
         const player = state.players[command.playerId];
+        const moveFunction = acceptedMoves[keyPressed];
 
-        if (keyPressed === 'ArrowUp' && player.y - 1 >= 0) {
-            player.y--;
-            return;
-        }
-
-        if (keyPressed === 'ArrowRight' && player.x + 1 < screen.width) {
-            player.x++;
-            return;
-        }
-
-        if (keyPressed === 'ArrowDown' && player.y + 1 < screen.height) {
-            player.y++;
-            return;
-        }
-
-        if (keyPressed === 'ArrowLeft' && player.x - 1 >= 0) {
-            player.x--;
-            return;
+        if (moveFunction) {
+            moveFunction(player);
         }
     }
 
